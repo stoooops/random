@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Install the latest version of the Chrome webdriver
+# https://sites.google.com/a/chromium.org/chromedriver/downloads
+
+set -euo pipefail
+
+# Download the latest version of the Chrome webdriver
+CHROMEDRIVER_LATEST_RELEASE="$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE)"
+
+# Create a temporary directory, download the Chrome webdriver executable, and extract it.
+TMP_DIR="$(mktemp -d)"
+wget "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_LATEST_RELEASE}/chromedriver_linux64.zip" -P "${TMP_DIR}"
+unzip "${TMP_DIR}/chromedriver_linux64.zip" -d "${TMP_DIR}"
+
+# Make the executable executable.
+chmod +x "${TMP_DIR}/chromedriver"
+
+# Move the executable to a directory in the PATH.
+sudo mv "${TMP_DIR}/chromedriver" /usr/local/bin/chromedriver
+
+# Clean up.
+rm -rf "${TMP_DIR}"
+
+# Print the version of the Chrome webdriver.
+chromedriver --version
