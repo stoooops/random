@@ -3,3 +3,6 @@ __pycache__/
 venv
 *.part
 *.mp4
+
+.vscode
+
